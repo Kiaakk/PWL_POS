@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -90,4 +91,16 @@ Route::prefix('stok')->group(function () {
     Route::get('/{id}/edit', [StokController::class, 'edit']);
     Route::put('/{id}', [StokController::class, 'update']);
     Route::delete('/{id}', [StokController::class, 'destroy']);
+});
+
+// route untuk supplier
+Route::group(['prefix' => 'supplier'], function () {
+    Route::get('/', [SupplierController::class, 'index']);           // menampilkan halaman awal user
+    Route::post('/list', [SupplierController::class, 'list']);       // menampilkan data user dalam bentuk json untuk datatables
+    Route::get('/create', [SupplierController::class, 'create']);    // menampilkan halaman form tambah user
+    Route::post('/', [SupplierController::class, 'store']);          // menyimpan data user baru
+    Route::get('/{id}', [SupplierController::class, 'show']);        // menampilkan detail user
+    Route::get('/{id}/edit', [SupplierController::class, 'edit']);   // menampilkan halaman form edit user
+    Route::put('/{id}', [SupplierController::class, 'update']);      // menyimpan perubahan data user
+    Route::delete('/{id}', [SupplierController::class, 'destroy']);  // menghapus data user
 });

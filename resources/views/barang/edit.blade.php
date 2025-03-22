@@ -53,20 +53,20 @@
                 </div>
                 
                 <div class="form-group row">
-                    <label class="col-2 control-label col-form-label">Harga</label>
+                    <label class="col-2 control-label col-form-label">Harga Beli</label>
                     <div class="col-10">
-                        <input type="number" class="form-control" id="harga" name="harga" value="{{ old('harga', $barang->harga) }}" required>
-                        @error('harga')
+                        <input type="number" class="form-control" id="harga_beli" name="harga_beli" value="{{ old('harga_beli', $barang->harga_beli) }}" required>
+                        @error('harga_beli')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
                 
                 <div class="form-group row">
-                    <label class="col-2 control-label col-form-label">Stok</label>
+                    <label class="col-2 control-label col-form-label">Harga Jual</label>
                     <div class="col-10">
-                        <input type="number" class="form-control" id="stok" name="stok" value="{{ old('stok', $barang->stok) }}" required>
-                        @error('stok')
+                        <input type="number" class="form-control" id="harga_jual" name="harga_jual" value="{{ old('harga_jual', $barang->harga_jual) }}" required>
+                        @error('harga_jual')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
