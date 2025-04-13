@@ -352,7 +352,7 @@ class BarangController extends Controller
                 }
                 return response()->json([
                     'status' => true,
-                    'message' => 'Data User berhasil diimport'
+                    'message' => 'Data Barangs berhasil diimport'
                 ]);
             }else{
                 return response()->json([
