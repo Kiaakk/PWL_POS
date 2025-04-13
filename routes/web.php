@@ -166,6 +166,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('user.destroy');
         Route::get('/import', [UserController::class, 'import'])->name('user.import');
         Route::post('/import_ajax', [UserController::class, 'import_ajax'])->name('user.import_ajax');
+        Route::get('/export_excel', [UserController::class, 'export_excel'])->name('user.export_excel');
     });
 
     Route::middleware(['authorize:ADM'])->group(function () {
@@ -186,6 +187,7 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/{id}', [LevelController::class, 'destroy'])->name('level.destroy');
             Route::get('/import', [LevelController::class, 'import'])->name('level.import');
             Route::post('/import_ajax', [LevelController::class, 'import_ajax'])->name('level.import_ajax');
+            Route::get('/export_excel', [LevelController::class, 'export_excel'])->name('level.export_excel');  
         });
     });
 
@@ -207,7 +209,7 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
             Route::get('/import', [BarangController::class, 'import'])->name('barang.import');
             Route::post('/import_ajax', [BarangController::class, 'import_ajax'])->name('barang.import_ajax');
-            // Route::get('/export_excel', [BarangController::class, 'export_excel'])->name('barang.export_excel');
+            Route::get('/export_excel', [BarangController::class, 'export_excel'])->name('barang.export_excel');
             Route::get('/export_excel', [BarangController::class, 'export_excel'])->name('barang.export_excel');
         });
     });
@@ -230,6 +232,7 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
             Route::get('/import', [KategoriController::class, 'import'])->name('kategori.import');
             Route::post('/import_ajax', [KategoriController::class, 'import_ajax'])->name('kategori.import_ajax');
+            Route::get('/export_excel', [KategoriController::class, 'export_excel'])->name('kategori.export_excel');
         });
     });
 
@@ -251,6 +254,7 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/{id}', [SupplierController::class, 'destroy'])->name('supplier.destroy');
             Route::get('/import', [SupplierController::class, 'import'])->name('supplier.import');
             Route::post('/import_ajax', [SupplierController::class, 'import_ajax'])->name('supplier.import_ajax');
+            Route::get('/export_excel', [SupplierController::class, 'export_excel'])->name('supplier.export_excel');
         });
     });
 });
