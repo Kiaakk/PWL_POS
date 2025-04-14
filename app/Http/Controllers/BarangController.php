@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\LevelModel;
 use App\Models\BarangModel;
 use App\Models\KategoriModel;
@@ -10,8 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Yajra\DataTables\Facades\DataTables;
-
-
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BarangController extends Controller
 {
@@ -51,11 +49,6 @@ class BarangController extends Controller
             ->addIndexColumn()
             ->addColumn('aksi', function ($barang) {
                 $btn = '<a href="' . route('barang.show', $barang->barang_id) . '" class="btn btn-info btn-sm">Detail</a> ';
-                // $btn .= '<a href="' . url('/barang/' . $barang->barang_id . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
-                // $btn .= '<form class="d-inline-block" method="POST" action="' . url('/barang/' . $barang->barang_id) . '">'
-                //     . csrf_field() . method_field('DELETE') .
-                //     '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
-                // $btn = '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail Ajax</button> ';
                 $btn .= '<button onclick="modalAction(\'' . route('barang.edit_ajax', $barang->barang_id) . '\')" class="btn btn-warning btn-sm">Edit Ajax</button> ';
                 $btn .= '<button onclick="modalAction(\'' . route('barang.delete_ajax', $barang->barang_id)  . '\')" class="btn btn-danger btn-sm">Hapus Ajax</button> ';
                 return $btn;
@@ -133,7 +126,6 @@ class BarangController extends Controller
 
         return redirect('barang')->with('success', 'Barang berhasil ditambahkan');
     }
-
 
     // Menampilkan halaman form edit barang
     public function edit($id)
@@ -413,5 +405,20 @@ class BarangController extends Controller
 
         $writer->save('php://output');
         exit;
+    }
+
+    public function export_pdf(){
+        $barang = BarangModel::select('kategori_id','barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
+        ->with('kategori')
+        ->orderBy('kategori_id')
+        ->orderBy('barang_kode')
+        ->get();
+
+        $pdf = Pdf::loadview('barang.export_pdf', compact('barang'));
+        $pdf->setPaper('A4', 'portrait');
+        $pdf->setOption('isRemoteEnabled', true);
+        $pdf->render();
+        return $pdf->stream('Data Barang' . date('Y-m-d H:i:s'). '.pdf');
+
     }
 }
