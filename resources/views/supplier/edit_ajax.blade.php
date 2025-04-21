@@ -3,8 +3,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Kesalahan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
@@ -23,8 +24,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Data Supplier</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -35,20 +37,15 @@
                     </div>
                     <div class="form-group">
                         <label>Nama Supplier</label>
-                        <input value="{{ $supplier->nama }}" type="text" name="nama" id="nama"
+                        <input value="{{ $supplier->supplier_nama }}" type="text" name="supplier_nama" id="supplier_nama"
                             class="form-control" required>
-                        <small id="error-nama" class="error-text form-text text-danger"></small>
+                        <small id="error-supplier_nama" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
                         <label>Nama PT</label>
-                        <input value="{{ $supplier->nama_pt }}" type="text" name="nama_pt" id="nama_pt"
+                        <input value="{{ $supplier->supplier_alamat }}" type="text" name="supplier_alamat" id="supplier_alamat"
                             class="form-control" required>
-                        <small id="error-nama_pt" class="error-text form-text text-danger"></small>
-                    </div>
-                    <div class="form-group">
-                        <label>Alamat</label>
-                        <textarea name="alamat" id="alamat" class="form-control" required>{{ $supplier->alamat }}</textarea>
-                        <small id="error-alamat" class="error-text form-text text-danger"></small>
+                        <small id="error-supplier_alamat" class="error-text form-text text-danger"></small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -60,7 +57,7 @@
     </form>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("#form-edit-supplier").validate({
                 rules: {
                     supplier_kode: {
@@ -68,59 +65,67 @@
                         minlength: 3,
                         maxlength: 20
                     },
-                    nama: {
+                    supplier_nama: {
                         required: true,
                         minlength: 3,
                         maxlength: 100
                     },
-                    nama_pt: {
+                    supplier_alamat: {
                         required: true,
                         minlength: 3,
                         maxlength: 100
                     },
-                    alamat: {
-                        required: true,
-                        minlength: 5
-                    }
                 },
-                submitHandler: function(form) {
+                submitHandler: function (form) {
                     $.ajax({
                         url: form.action,
                         type: form.method,
                         data: $(form).serialize(),
-                        success: function(response) {
-                            if (response.status) {
+                        success: function (response) {
+                            console.log(response); // buat ngecek isi respon
+                            $('.error-text').text('');
+
+                            if (response.status === true) {
                                 $('#modal-master').modal('hide');
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Berhasil',
-                                    text: response.message
+                                    text: response.message || 'Data berhasil diupdate'
                                 });
                                 dataSupplier.ajax.reload();
                             } else {
-                                $('.error-text').text('');
-                                $.each(response.msgField, function(prefix, val) {
-                                    $('#error-' + prefix).text(val[0]);
-                                });
+                                if (response.msgField) {
+                                    $.each(response.msgField, function (prefix, val) {
+                                        $('#error-' + prefix).text(val[0]);
+                                    });
+                                }
+
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Terjadi Kesalahan',
-                                    text: response.message
+                                    title: 'Gagal mengubah data',
+                                    text: response.message || 'Terjadi kesalahan saat mengubah data'
                                 });
                             }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: 'Terjadi error di server'
+                            });
                         }
                     });
                     return false;
                 },
                 errorElement: 'span',
-                errorPlacement: function(error, element) {
+                errorPlacement: function (error, element) {
                     error.addClass('invalid-feedback');
                     element.closest('.form-group').append(error);
                 },
-                highlight: function(element, errorClass, validClass) {
+                highlight: function (element) {
                     $(element).addClass('is-invalid');
                 },
-                unhighlight: function(element, errorClass, validClass) {
+                unhighlight: function (element) {
                     $(element).removeClass('is-invalid');
                 }
             });

@@ -23,23 +23,11 @@
                      </tr>
                      <tr>
                          <th>Nama</th>
-                         <td>{{ $supplier->nama }}</td>
+                         <td>{{ $supplier->supplier_nama }}</td>
                      </tr>
                      <tr>
                          <th>Nama PT</th>
-                         <td>{{ $supplier->nama_pt }}</td>
-                     </tr>
-                     <tr>
-                         <th>Alamat</th>
-                         <td>{{ $supplier->alamat }}</td>
-                     </tr>
-                     <tr>
-                         <th>Dibuat Pada</th>
-                         <td>{{ $supplier->created_at ? date('d-m-Y H:i', strtotime($supplier->created_at)) : '-' }}</td>
-                     </tr>
-                     <tr>
-                         <th>Terakhir Diperbarui</th>
-                         <td>{{ $supplier->updated_at ? date('d-m-Y H:i', strtotime($supplier->updated_at)) : '-' }}</td>
+                         <td>{{ $supplier->supplier_alamat }}</td>
                      </tr>
                  </table>
              @endempty
